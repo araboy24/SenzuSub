@@ -188,6 +188,16 @@ ground = Ground()
 goku = Player()
 blasts = []
 foods = []
+
+def set_new_highscore(score):
+    if score > get_highscore():
+        with open("highscore.txt", 'w') as f:
+            f.write(str(score))
+
+def get_highscore():
+    with open("highscore.txt", "r") as f:
+        return int(f.readline())
+
 def init():
     global ground
     ground = Ground()
@@ -198,7 +208,7 @@ score = 0
 lives = 3
 gameOver = False
 run = True
-highScore = 0
+highScore = get_highscore()
 while run:
     clock.tick(80)
     if gameOver == False:
@@ -284,6 +294,8 @@ while run:
     else:
         if highScore < score:
             highScore = score
+            set_new_highscore(score)
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             gameOver = False
